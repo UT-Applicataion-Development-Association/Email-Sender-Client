@@ -31,6 +31,7 @@ module.exports = merge(common, {
         port: 8080,
         compress: true,
         hot: true,
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({

@@ -1,5 +1,7 @@
 const path = require("path");
 
+const PROJECT_ROOT = path.resolve(__dirname, "../");
+
 module.exports = {
     // Uncomment next line for debugging only
     // devtool: "eval-source-map",
@@ -9,6 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "../dist"),
+        publicPath: "/",
         filename: "index.bundle.js",
     },
     module: {
@@ -45,6 +48,17 @@ module.exports = {
     },
     resolve: {
         extensions: [".js", ".jsx", ".css", ".scss", ".less", ".png", ".svg"],
+        alias: {
+            Src: path.resolve(PROJECT_ROOT, "./src"),
+            Components: path.resolve(PROJECT_ROOT, "./src/components"),
+            Configs: path.resolve(PROJECT_ROOT, "./src/configs"),
+            Libs: path.resolve(PROJECT_ROOT, "./src/libs"),
+            Models: path.resolve(PROJECT_ROOT, "./src/models"),
+            Pages: path.resolve(PROJECT_ROOT, "./src/pages"),
+            Routes: path.resolve(PROJECT_ROOT, "./src/routes"),
+            Services: path.resolve(PROJECT_ROOT, "./src/services"),
+            Utils: path.resolve(PROJECT_ROOT, "./src/utils"),
+        },
     },
     externals: [],
 };
