@@ -1,8 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
 
-import "antd/dist/antd.css";
-
 export default class Header extends React.Component {
     render() {
         const { Header } = Layout;

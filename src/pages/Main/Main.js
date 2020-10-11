@@ -4,8 +4,6 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import SecondaryRoutes from "Routes/secondary";
 
-import "antd/dist/antd.css";
-
 export default class Main extends React.Component {
     render() {
         const { Content } = Layout;

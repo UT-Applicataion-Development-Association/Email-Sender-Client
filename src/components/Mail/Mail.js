@@ -5,8 +5,6 @@ import History from "./History";
 import Template from "./Template";
 import New from "./New";
 
-import "antd/dist/antd.css";
-
 export default class Mail extends React.Component {
     static propTypes = {
         match: PropTypes.object,

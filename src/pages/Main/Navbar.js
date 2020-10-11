@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import { MailOutlined, HomeOutlined } from "@ant-design/icons";
 import { NavLink, withRouter } from "react-router-dom";
 
-import "antd/dist/antd.css";
-
 class Navbar extends React.Component {
     static propTypes = {
         location: PropTypes.object,
@@ -33,10 +31,10 @@ class Navbar extends React.Component {
                         <Menu.Item key="/mail/new">
                             <NavLink to="/mail/new">新建邮件</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="/mail/history">
+                        <Menu.Item key="/mail/history" disabled>
                             <NavLink to="/mail/history">历史记录</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="/mail/template">
+                        <Menu.Item key="/mail/template" disabled>
                             <NavLink to="/mail/template">模版管理</NavLink>
                         </Menu.Item>
                     </SubMenu>
