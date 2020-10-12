@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Login, Main } from "Pages";
+import Login from "Pages/Login";
+import Main from "Pages/Main";
 
 export default function routes() {
     return (
