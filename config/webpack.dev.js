@@ -21,7 +21,19 @@ module.exports = merge(common, {
             },
             {
                 test: /\.less$/,
-                use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "postcss-loader",
+                    {
+                        loader: "less-loader",
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true,
+                            },
+                        },
+                    },
+                ],
             },
         ],
     },
@@ -31,6 +43,7 @@ module.exports = merge(common, {
         port: 8080,
         compress: true,
         hot: true,
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({

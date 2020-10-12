@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Main from "./components/main/Main";
+import Router from "./routes";
+
+import "./styles/index.less";
 
 // eslint-disable-next-line no-undef
-ReactDOM.render(<Main />, document.getElementById("root"));
+ReactDOM.render(<Router />, document.getElementById("root"));
