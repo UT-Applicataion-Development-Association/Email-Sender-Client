@@ -1,9 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
-import History from "./History";
-import Template from "./Template";
-import New from "./New";
+import getComponentRoutes from "./Routes";
 
 export default class Mail extends React.Component {
     static propTypes = {
@@ -13,16 +11,15 @@ export default class Mail extends React.Component {
     constructor(props) {
         super(props);
 
-        this.route = this.props.match.path;
+        this.rootRoute = this.props.match.path;
     }
 
     render() {
         return (
             <Switch>
-                <Route exact path={`${this.route}/new`} component={New} />
-                <Route exact path={`${this.route}/history`} component={History} />
-                <Route exact path={`${this.route}/template`} component={Template} />
-                <Route path={`${this.route}`} component={New} />
+                {getComponentRoutes(this.rootRoute).map((route, key) => (
+                    <Route key={key} {...route} />
+                ))}
             </Switch>
         );
     }

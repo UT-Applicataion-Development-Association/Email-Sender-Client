@@ -31,10 +31,10 @@ class Navbar extends React.Component {
                         <Menu.Item key="/mail/new">
                             <NavLink to="/mail/new">新建邮件</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="/mail/history" disabled>
+                        <Menu.Item key="/mail/history">
                             <NavLink to="/mail/history">历史记录</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="/mail/template" disabled>
+                        <Menu.Item key="/mail/template">
                             <NavLink to="/mail/template">模版管理</NavLink>
                         </Menu.Item>
                     </SubMenu>

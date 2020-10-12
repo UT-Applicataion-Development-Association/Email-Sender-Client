@@ -1,11 +1,15 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import PrimaryRoutes from "./primary";
 
 export default function Router() {
     return (
         <BrowserRouter>
-            <PrimaryRoutes />
+            <Switch>
+                {PrimaryRoutes.map((route, key) => (
+                    <Route key={key} {...route} />
+                ))}
+            </Switch>
         </BrowserRouter>
     );
 }
