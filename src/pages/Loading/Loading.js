@@ -3,6 +3,10 @@ import { Spin } from "antd";
 
 export default class Loading extends React.Component {
     render() {
-        return <Spin />;
+        return (
+            <div className="loading-container">
+                <Spin />
+            </div>
+        );
     }
 }

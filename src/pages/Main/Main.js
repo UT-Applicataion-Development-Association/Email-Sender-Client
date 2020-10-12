@@ -7,11 +7,11 @@ import Content from "./Content";
 export default class Main extends React.Component {
     render() {
         return (
-            <Layout style={{ height: "100%" }}>
+            <Layout className="main-container">
                 <Header />
                 <Layout>
                     <Navbar />
-                    <Layout style={{ padding: "24px" }}>
+                    <Layout className="main-content-container">
                         <Content />
                     </Layout>
                 </Layout>

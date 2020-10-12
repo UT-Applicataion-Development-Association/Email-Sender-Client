@@ -17,13 +17,8 @@ class Navbar extends React.Component {
         const currentModule = `/${currentRoute.split("/")[1]}`;
 
         return (
-            <Sider width={200} className="site-layout-background">
-                <Menu
-                    mode="inline"
-                    selectedKeys={[currentRoute]}
-                    defaultOpenKeys={[currentModule]}
-                    style={{ height: "100%", borderRight: 0 }}
-                >
+            <Sider width={200} className="main-navbar">
+                <Menu className="menu" mode="inline" selectedKeys={[currentRoute]} defaultOpenKeys={[currentModule]}>
                     <Menu.Item key="/" icon={<HomeOutlined />}>
                         <NavLink to="/">首页</NavLink>
                     </Menu.Item>
