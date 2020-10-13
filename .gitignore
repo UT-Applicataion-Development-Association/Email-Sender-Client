@@ -4,3 +4,5 @@ dist
 coverage
 .vscode
 package-lock.json
+.idea
+debug.log

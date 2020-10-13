@@ -1,3 +1,4 @@
 import Main from "./Main";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 
-export default Main;
+export default withAuthenticationRequired(Main);
