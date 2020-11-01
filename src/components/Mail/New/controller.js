@@ -27,8 +27,7 @@ export default class Controller extends React.Component {
     }
 
     submitCallback() {
-        // eslint-disable-next-line no-console
-        console.log("submit !");
+        return;
     }
 
     render() {
