@@ -1,5 +1,6 @@
 import React from "react";
 import Views from "./views";
+import { steps as stepList } from "./config";
 
 export default class Controller extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class Controller extends React.Component {
 
     toNextStep() {
         const { step } = this.state;
-        if (step < 4) {
+        if (step < stepList.length) {
             this.setState({ step: step + 1 });
         }
     }
