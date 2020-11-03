@@ -10,6 +10,7 @@ export default class Success extends React.Component {
     render() {
         return (
             <Result
+                className="success"
                 status="success"
                 title="新邮件请求已发送至服务器"
                 subTitle="邮件发出速度受请求量影响，可能会有一定延迟。"

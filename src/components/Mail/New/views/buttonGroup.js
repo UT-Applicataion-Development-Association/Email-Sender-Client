@@ -14,11 +14,11 @@ export default class ButtonGroup extends React.Component {
     _nextBtnNode() {
         const { step, onClickNext, onClickSubmit } = this.props;
         return step === stepList.length - 1 ? (
-            <Button type="primary" onClick={onClickSubmit} style={{ marginLeft: "12px" }}>
+            <Button type="primary" className="is-primary" onClick={onClickSubmit}>
                 发送
             </Button>
         ) : (
-            <Button type="primary" onClick={onClickNext} style={{ marginLeft: "12px" }}>
+            <Button type="primary" className="is-primary" onClick={onClickNext}>
                 下一步
             </Button>
         );
@@ -27,7 +27,7 @@ export default class ButtonGroup extends React.Component {
     render() {
         const { step, onClickPrev } = this.props;
         return (
-            <div className="button-group" style={{ float: "right" }}>
+            <div className="button-group">
                 <Button disabled={step <= 0} onClick={onClickPrev}>
                     上一步
                 </Button>

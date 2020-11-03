@@ -34,7 +34,7 @@ export default class Controller extends React.Component {
         const { step } = this.state;
         return (
             <Views
-                result={null}
+                result={{ isSuccess: false }}
                 step={step}
                 onClickPrev={this.toPrevStep}
                 onClickNext={this.toNextStep}

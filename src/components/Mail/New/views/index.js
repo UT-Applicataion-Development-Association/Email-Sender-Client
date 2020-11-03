@@ -47,7 +47,7 @@ export default class Views extends React.Component {
                 mainModule = <></>;
         }
         return (
-            <div className="mail-new" style={{ padding: "32px" }}>
+            <>
                 <Progress step={step} />
                 <Divider />
                 {mainModule}
@@ -58,30 +58,17 @@ export default class Views extends React.Component {
                     onClickPrev={onClickPrev}
                     onClickSubmit={onClickSubmit}
                 />
-            </div>
+            </>
         );
     }
 
     _resultNode() {
         const { result } = this.props;
-        return (
-            <div
-                className="mail-new"
-                style={{
-                    padding: "32px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100%",
-                }}
-            >
-                {result.isSuccess ? <Success info={result} /> : <Failure info={result} />}
-            </div>
-        );
+        return <div className="result">{result.isSuccess ? <Success info={result} /> : <Failure info={result} />}</div>;
     }
 
     render() {
         const { result } = this.props;
-        return result ? this._resultNode() : this._moduleNode();
+        return <div className="mail-new">{result ? this._resultNode() : this._moduleNode()}</div>;
     }
 }

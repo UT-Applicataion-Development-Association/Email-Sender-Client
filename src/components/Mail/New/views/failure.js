@@ -12,6 +12,7 @@ export default class Failure extends React.Component {
     render() {
         return (
             <Result
+                className="failure"
                 status="error"
                 title="服务器无法受理该发件请求"
                 subTitle="请根据返回的错误信息判断是否需要重试或联系开发组。"
@@ -24,14 +25,7 @@ export default class Failure extends React.Component {
             >
                 <div className="desc">
                     <Paragraph>
-                        <Text
-                            strong
-                            style={{
-                                fontSize: 16,
-                            }}
-                        >
-                            错误信息如下：
-                        </Text>
+                        <Text strong>错误信息如下：</Text>
                     </Paragraph>
                     <Paragraph>Error 500: Internal Server Error</Paragraph>
                 </div>
