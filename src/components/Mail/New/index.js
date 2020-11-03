@@ -1,7 +1,3 @@
-import React from "react";
+import Controller from "./controller";
 
-export default class New extends React.Component {
-    render() {
-        return <h1>New - Todo</h1>;
-    }
-}
+export default Controller;
