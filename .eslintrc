@@ -7,7 +7,10 @@
     "root": true,
     "parserOptions": {
         "ecmaVersion": 2019,
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "legacyDecorators": true
+        }
     },
     "parser": "babel-eslint",
     "plugins": ["babel"],

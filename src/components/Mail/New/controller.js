@@ -1,8 +1,16 @@
 import React from "react";
+import { observer, inject } from "mobx-react";
+import PropTypes from "prop-types";
 import Views from "./views";
 import { steps as stepList } from "./config";
 
+@inject("rootStore")
+@observer
 export default class Controller extends React.Component {
+    static propTypes = {
+        rootStore: PropTypes.any,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
