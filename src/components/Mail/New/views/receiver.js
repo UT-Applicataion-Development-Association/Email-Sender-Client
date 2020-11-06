@@ -32,7 +32,12 @@ export default class Receiver extends React.Component {
                     <Text strong>{title}</Text>
                 </Col>
                 <Col span={21}>
-                    <Search allowClear onSearch={null} style={{ width: 200 }} enterButton={<Button>+</Button>} />
+                    <Search
+                        allowClear
+                        onSearch={null}
+                        style={{ width: "40%", maxWidth: "600px", minWidth: "250px" }}
+                        enterButton={<Button>+</Button>}
+                    />
                     <div style={{ marginTop: "12px" }}>
                         <Tag closable onClose={null}>
                             test@gmail.com

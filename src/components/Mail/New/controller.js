@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import Views from "./views";
 import { steps as stepList } from "./config";
 
+export const StepContext = React.createContext();
+
 @inject("rootStore")
 @observer
 export default class Controller extends React.Component {
@@ -13,12 +15,16 @@ export default class Controller extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            step: 0,
-        };
+
         this.toPrevStep = this.toPrevStep.bind(this);
         this.toNextStep = this.toNextStep.bind(this);
         this.submitCallback = this.submitCallback.bind(this);
+
+        this.state = {
+            step: 0,
+            onClickPrev: this.toPrevStep,
+            onClickNext: this.toNextStep,
+        };
     }
 
     toPrevStep() {
@@ -40,15 +46,12 @@ export default class Controller extends React.Component {
     }
 
     render() {
-        const { step } = this.state;
+        const { rootStore } = this.props;
+        const mailStore = rootStore.mailStore;
         return (
-            <Views
-                result={null}
-                step={step}
-                onClickPrev={this.toPrevStep}
-                onClickNext={this.toNextStep}
-                onClickSubmit={this.submitCallback}
-            />
+            <StepContext.Provider value={this.state}>
+                <Views store={mailStore} result={null} onClickSubmit={this.submitCallback} />
+            </StepContext.Provider>
         );
     }
 }
