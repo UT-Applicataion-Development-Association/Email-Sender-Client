@@ -48,9 +48,10 @@ export default class Controller extends React.Component {
     render() {
         const { rootStore } = this.props;
         const mailStore = rootStore.mailStore;
+        const callbacks = { submitCallback: this.submitCallback };
         return (
             <StepContext.Provider value={this.state}>
-                <Views store={mailStore} result={null} onClickSubmit={this.submitCallback} />
+                <Views store={mailStore} result={null} callbacks={callbacks} />
             </StepContext.Provider>
         );
     }

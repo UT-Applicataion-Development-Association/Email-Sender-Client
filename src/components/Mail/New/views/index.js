@@ -14,7 +14,8 @@ import { StepContext } from "../controller";
 
 export default class Views extends React.Component {
     static propTypes = {
-        onClickSubmit: PropTypes.func,
+        store: PropTypes.any,
+        callbacks: PropTypes.object,
         result: PropTypes.object,
     };
 
@@ -23,11 +24,12 @@ export default class Views extends React.Component {
     }
 
     _moduleNode(step) {
-        const { onClickSubmit } = this.props;
+        const { callbacks, store } = this.props;
+        const { onClickSubmit } = callbacks;
         let mainModule = <></>;
         switch (step) {
             case 0:
-                mainModule = <Receiver />;
+                mainModule = <Receiver store={store} />;
                 break;
             case 1:
                 mainModule = <BodyType />;
