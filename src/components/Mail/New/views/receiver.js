@@ -47,7 +47,7 @@ export default class Receiver extends React.Component {
     render() {
         const { store } = this.props;
         return (
-            <div className="receiver" style={{ padding: "32px" }}>
+            <div className="step-receiver">
                 <FileUpload addEmailCallback={this.addEmailCallback} />
                 <Divider />
                 {inputList.map((item) => (
@@ -107,12 +107,7 @@ class EmailInput extends React.Component {
     _emailTagNode(email) {
         const { deleteEmailCallback, type } = this.props;
         return (
-            <Tag
-                closable
-                key={email}
-                onClose={deleteEmailCallback.bind(this, email, type)}
-                style={{ marginBottom: "8px" }}
-            >
+            <Tag closable key={email} onClose={deleteEmailCallback.bind(this, email, type)} className="input-tag">
                 {email}
             </Tag>
         );
@@ -124,23 +119,21 @@ class EmailInput extends React.Component {
         const { Text } = Typography;
         const { Search } = Input;
         return (
-            <Row style={{ marginTop: "48px" }}>
+            <Row className="row-text-input">
                 <Col span={3}>
                     <Text strong>{title}</Text>
                 </Col>
                 <Col span={21}>
                     <Search
+                        className="input-bar"
                         allowClear
                         value={value}
-                        style={{ width: "40%", maxWidth: "600px", minWidth: "250px" }}
                         enterButton={<Button disabled={!isValid}>+</Button>}
                         onChange={this.onValueChange}
                         onPressEnter={this.onValueSave}
                         onSearch={this.onValueSave}
                     />
-                    <div style={{ marginTop: "12px" }}>
-                        {store.getReceivers(type).map((item) => this._emailTagNode(item))}
-                    </div>
+                    <div className="input-tags">{store.getReceivers(type).map((item) => this._emailTagNode(item))}</div>
                 </Col>
             </Row>
         );
@@ -203,12 +196,12 @@ class FileUpload extends React.Component {
             accept: ".xlsx",
         };
         return (
-            <Row>
+            <Row className="row-file-input">
                 <Col span={3}>
                     <Text strong>文件导入</Text>
                 </Col>
                 <Col span={21}>
-                    <Text style={{ display: "block", marginBottom: "12px" }}>
+                    <Text className="input-description">
                         上传包含指定收件人、抄送和密送邮箱地址的表单文件（
                         <Link onClick={this.templateDownloader}>下载模版</Link>）
                     </Text>
