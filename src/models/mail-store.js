@@ -71,3 +71,14 @@ export default class MailStore {
         return [...this[type].keys()];
     }
 }
+
+export const typeSchema = [
+    { name: "plaintext", description: "纯文本" },
+    { name: "template", description: "模版" },
+];
+
+export const receiverSchema = [
+    { name: "to", description: "收件人" },
+    { name: "cc", description: "抄送" },
+    { name: "bcc", description: "密送" },
+];

@@ -5,6 +5,7 @@ import { Row, Col, Typography, Upload, Button, Divider, Input, Tag } from "antd"
 import { UploadOutlined } from "@ant-design/icons";
 import { isValidEmail } from "Utils/validator";
 import ExcelService from "Services/ExcelService";
+import { receiverSchema as inputList } from "Models/mail-store";
 
 @observer
 export default class Receiver extends React.Component {
@@ -15,11 +16,6 @@ export default class Receiver extends React.Component {
     constructor(props) {
         super(props);
 
-        this.inputList = [
-            { title: "收件人", type: "to" },
-            { title: "抄送", type: "cc" },
-            { title: "密送", type: "bcc" },
-        ];
         this.addEmailCallback = this.addEmailCallback.bind(this);
         this.deleteEmailCallback = this.deleteEmailCallback.bind(this);
     }
@@ -47,11 +43,11 @@ export default class Receiver extends React.Component {
             <div className="receiver" style={{ padding: "32px" }}>
                 <FileUpload addEmailCallback={this.addEmailCallback} />
                 <Divider />
-                {this.inputList.map((item) => (
+                {inputList.map((item) => (
                     <EmailInput
-                        key={item.type}
-                        title={item.title}
-                        type={item.type}
+                        key={item.name}
+                        title={item.description}
+                        type={item.name}
                         store={store}
                         addEmailCallback={this.addEmailCallback}
                         deleteEmailCallback={this.deleteEmailCallback}
@@ -66,7 +62,7 @@ export default class Receiver extends React.Component {
 class EmailInput extends React.Component {
     static propTypes = {
         title: PropTypes.string,
-        type: PropTypes.oneOf(["to", "cc", "bcc"]),
+        type: PropTypes.oneOf(inputList.map((el) => el.name.toLowerCase())),
         store: PropTypes.any,
         addEmailCallback: PropTypes.func,
         deleteEmailCallback: PropTypes.func,
@@ -157,6 +153,8 @@ class FileUpload extends React.Component {
     async fileParser(options) {
         const { addEmailCallback } = this.props;
         const { file } = options;
+
+        const receiverTypes = inputList.map((el) => el.name.toLowerCase());
         try {
             const xlsx = new ExcelService();
             await xlsx.loadFromBlob(file);
@@ -167,7 +165,7 @@ class FileUpload extends React.Component {
 
             const header = arr[0];
             for (let j = 0; j < header.length; j++) {
-                if (!["to", "cc", "bcc"].includes(header[j])) {
+                if (!receiverTypes.includes(header[j])) {
                     continue;
                 }
                 for (let i = 1; i < arr.length; i++) {
@@ -180,9 +178,11 @@ class FileUpload extends React.Component {
     }
 
     templateDownloader() {
+        const receiverTypes = inputList.map((el) => el.name.toLowerCase());
+
         const xlsx = new ExcelService();
         xlsx.createWorkbook();
-        xlsx.addSheetFromArray([["to", "cc", "bcc"]], "upload");
+        xlsx.addSheetFromArray([receiverTypes], "upload");
         xlsx.downloadWorkbook("template.xlsx");
     }
 
@@ -199,14 +199,12 @@ class FileUpload extends React.Component {
                 </Col>
                 <Col span={21}>
                     <Text style={{ display: "block", marginBottom: "12px" }}>
-                        上传包含指定收件人、抄送和密送邮箱地址的表单文件（仅支持.xlsx格式）
+                        上传包含指定收件人、抄送和密送邮箱地址的表单文件（
+                        <Link onClick={this.templateDownloader}>下载模版</Link>）
                     </Text>
                     <Upload {...props}>
                         <Button icon={<UploadOutlined />}>上传文件</Button>
                     </Upload>
-                    <Link style={{ marginLeft: "24px" }} onClick={this.templateDownloader}>
-                        下载模版
-                    </Link>
                 </Col>
             </Row>
         );

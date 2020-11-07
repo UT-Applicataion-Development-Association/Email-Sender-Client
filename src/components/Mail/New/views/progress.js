@@ -11,7 +11,7 @@ export default class Progress extends React.Component {
                 {({ step }) => (
                     <Steps current={step} className="progress" size="small">
                         {stepList.map((item) => (
-                            <Step key={item.name} title={item.name} description={item.description} />
+                            <Step key={item.name} title={item.description} description={item.name.toLowerCase()} />
                         ))}
                     </Steps>
                 )}
