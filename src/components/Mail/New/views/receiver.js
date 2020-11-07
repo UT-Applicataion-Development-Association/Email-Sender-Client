@@ -102,7 +102,12 @@ class EmailInput extends React.Component {
     _emailTagNode(email) {
         const { deleteEmailCallback, type } = this.props;
         return (
-            <Tag closable key={email} onClose={() => deleteEmailCallback(email, type)} style={{ marginBottom: "8px" }}>
+            <Tag
+                closable
+                key={email}
+                onClose={deleteEmailCallback.bind(this, email, type)}
+                style={{ marginBottom: "8px" }}
+            >
                 {email}
             </Tag>
         );
