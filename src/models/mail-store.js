@@ -1,6 +1,6 @@
 import { observable, configure, makeObservable, action } from "mobx";
 import { isValidEmail } from "Utils/validator";
-import { ValidationError, DuplicationError } from "Configs/error";
+import { ValidationError, DuplicationError, InvalidArgumentError } from "Configs/error";
 
 configure({ enforceActions: "observed" });
 
@@ -37,7 +37,7 @@ export default class MailStore {
 
     @action addReceiver(email, type) {
         if (!["to", "cc", "bcc"].includes(type)) {
-            return;
+            throw new InvalidArgumentError("Invalid argument: type");
         }
 
         if (this[type].has(email)) {
@@ -53,7 +53,7 @@ export default class MailStore {
 
     @action deleteReceiver(email, type) {
         if (!["to", "cc", "bcc"].includes(type)) {
-            return;
+            throw new InvalidArgumentError("Invalid argument: type");
         }
 
         if (!this[type].has(email)) {
@@ -65,7 +65,7 @@ export default class MailStore {
 
     getReceivers(type) {
         if (!["to", "cc", "bcc"].includes(type)) {
-            return;
+            throw new InvalidArgumentError("Invalid argument: type");
         }
 
         return [...this[type].keys()];
