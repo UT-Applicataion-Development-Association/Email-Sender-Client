@@ -11,7 +11,7 @@ export default class Main extends React.Component {
                 <Header />
                 <Layout>
                     <Navbar />
-                    <Layout className="main-content-container">
+                    <Layout className="main-content-container" id="main-content-container">
                         <Content />
                     </Layout>
                 </Layout>

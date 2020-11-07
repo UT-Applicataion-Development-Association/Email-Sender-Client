@@ -1,4 +1,5 @@
 import XLSX from "xlsx";
+import { TypeError } from "Configs/error";
 
 export default class ExcelService {
     constructor() {
@@ -13,8 +14,7 @@ export default class ExcelService {
 
     convertSheetToArray(sheetIndex = 0) {
         if (!this.workbook) {
-            /** Error */
-            return;
+            throw new TypeError("Invalid workbook");
         }
         const sheet = this.workbook.Sheets[this.workbook.SheetNames[sheetIndex]];
         const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
@@ -29,8 +29,12 @@ export default class ExcelService {
         this.workbook = XLSX.utils.book_new();
     }
 
-    addSheetFromArray(array, sheetname) {
-        const sheet = this.convertArrayToSheet(array);
+    addSheetFromArray(arr, sheetname) {
+        if (!(arr instanceof Array)) {
+            throw new TypeError("Invalid type of variable: arr");
+        }
+
+        const sheet = this.convertArrayToSheet(arr);
         XLSX.utils.book_append_sheet(this.workbook, sheet, sheetname);
     }
 

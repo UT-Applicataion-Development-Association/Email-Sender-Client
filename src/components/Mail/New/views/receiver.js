@@ -5,7 +5,9 @@ import { Row, Col, Typography, Upload, Button, Divider, Input, Tag } from "antd"
 import { UploadOutlined } from "@ant-design/icons";
 import { isValidEmail } from "Utils/validator";
 import ExcelService from "Services/ExcelService";
+import NotificationService from "Services/NotificationService";
 import { receiverSchema as inputList } from "Models/mail-store";
+import { DuplicationError, ValidationError } from "Configs/error";
 
 @observer
 export default class Receiver extends React.Component {
@@ -16,6 +18,7 @@ export default class Receiver extends React.Component {
     constructor(props) {
         super(props);
 
+        this.notificationService = new NotificationService();
         this.addEmailCallback = this.addEmailCallback.bind(this);
         this.deleteEmailCallback = this.deleteEmailCallback.bind(this);
     }
@@ -26,7 +29,11 @@ export default class Receiver extends React.Component {
         try {
             store.addReceiver(email, type);
         } catch (e) {
-            // Handle the error
+            if (e instanceof DuplicationError) {
+                this.notificationService.post("error", `列表中已包含邮箱地址 ${email}`);
+            } else if (e instanceof ValidationError) {
+                this.notificationService.post("error", `无效的邮箱地址 ${email}`);
+            }
             return false;
         }
         return true;
@@ -71,6 +78,7 @@ class EmailInput extends React.Component {
     constructor(props) {
         super(props);
 
+        this.notificationService = new NotificationService();
         this.onValueChange = this.onValueChange.bind(this);
         this.onValueSave = this.onValueSave.bind(this);
         this.state = {
@@ -88,6 +96,7 @@ class EmailInput extends React.Component {
         const { isValid, value } = this.state;
         const { type, addEmailCallback } = this.props;
         if (!isValid) {
+            this.notificationService.post("error", `无效的邮箱地址 ${value}`);
             return;
         }
         if (addEmailCallback(value, type)) {
@@ -160,7 +169,7 @@ class FileUpload extends React.Component {
             await xlsx.loadFromBlob(file);
             const arr = xlsx.convertSheetToArray();
             if (arr.length === 0) {
-                /** error */
+                throw new ValidationError("Invalid format");
             }
 
             const header = arr[0];
@@ -173,7 +182,7 @@ class FileUpload extends React.Component {
                 }
             }
         } catch (e) {
-            /** handle error */
+            this.notificationService.post("error", "文件错误，请确认格式遵循范例模版");
         }
     }
 
@@ -191,6 +200,7 @@ class FileUpload extends React.Component {
         const props = {
             customRequest: this.fileParser,
             showUploadList: false,
+            accept: ".xlsx",
         };
         return (
             <Row>
