@@ -1,24 +1,22 @@
 export const steps = [
     {
-        name: "选择收件人",
-        description: "Receiver",
+        description: "选择收件人",
+        name: "receiver",
     },
     {
-        name: "选择类型",
-        description: "Type",
+        description: "选择类型",
+        name: "type",
     },
     {
-        name: "编辑内容",
-        description: "Content",
+        description: "编辑内容",
+        name: "content",
     },
     {
-        name: "添加附件",
-        description: "Attachment",
+        description: "添加附件",
+        name: "attachment",
     },
     {
-        name: "确认检查",
-        description: "Review",
+        description: "确认检查",
+        name: "review",
     },
 ];
-
-export const types = ["plaintext", "template"];

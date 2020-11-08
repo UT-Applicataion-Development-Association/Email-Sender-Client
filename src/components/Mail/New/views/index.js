@@ -10,13 +10,12 @@ import Success from "./success";
 import ButtonGroup from "./buttonGroup";
 import TextEditor from "./textEditor";
 import BodyType from "./bodyType";
+import { StepContext } from "../controller";
 
 export default class Views extends React.Component {
     static propTypes = {
-        step: PropTypes.number,
-        onClickPrev: PropTypes.func,
-        onClickNext: PropTypes.func,
-        onClickSubmit: PropTypes.func,
+        store: PropTypes.any,
+        callbacks: PropTypes.object,
         result: PropTypes.object,
     };
 
@@ -24,12 +23,13 @@ export default class Views extends React.Component {
         super(props);
     }
 
-    _moduleNode() {
-        const { step, onClickNext, onClickPrev, onClickSubmit } = this.props;
+    _moduleNode(step) {
+        const { callbacks, store } = this.props;
+        const { onClickSubmit } = callbacks;
         let mainModule = <></>;
         switch (step) {
             case 0:
-                mainModule = <Receiver />;
+                mainModule = <Receiver store={store} />;
                 break;
             case 1:
                 mainModule = <BodyType />;
@@ -48,16 +48,11 @@ export default class Views extends React.Component {
         }
         return (
             <>
-                <Progress step={step} />
+                <Progress />
                 <Divider />
                 {mainModule}
                 <Divider />
-                <ButtonGroup
-                    step={step}
-                    onClickNext={onClickNext}
-                    onClickPrev={onClickPrev}
-                    onClickSubmit={onClickSubmit}
-                />
+                <ButtonGroup onClickSubmit={onClickSubmit} />
             </>
         );
     }
@@ -69,6 +64,13 @@ export default class Views extends React.Component {
 
     render() {
         const { result } = this.props;
-        return <div className="mail-new">{result ? this._resultNode() : this._moduleNode()}</div>;
+
+        return (
+            <StepContext.Consumer>
+                {({ step }) => {
+                    return <div className="mail-new">{result ? this._resultNode() : this._moduleNode(step)}</div>;
+                }}
+            </StepContext.Consumer>
+        );
     }
 }

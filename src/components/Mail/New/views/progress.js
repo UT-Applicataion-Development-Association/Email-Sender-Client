@@ -1,22 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Steps } from "antd";
 import { steps as stepList } from "../config";
+import { StepContext } from "../controller";
 
 export default class Progress extends React.Component {
-    static propTypes = {
-        step: PropTypes.number,
-    };
-
     render() {
         const { Step } = Steps;
-        const stepIndex = this.props.step;
         return (
-            <Steps current={stepIndex} className="progress" size="small">
-                {stepList.map((item) => (
-                    <Step key={item.name} title={item.name} description={item.description} />
-                ))}
-            </Steps>
+            <StepContext.Consumer>
+                {({ step }) => (
+                    <Steps current={step} className="progress" size="small">
+                        {stepList.map((item) => (
+                            <Step key={item.name} title={item.description} description={item.name.toLowerCase()} />
+                        ))}
+                    </Steps>
+                )}
+            </StepContext.Consumer>
         );
     }
 }
