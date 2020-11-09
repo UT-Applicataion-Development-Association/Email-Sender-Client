@@ -22,6 +22,8 @@ export default class MailStore {
     constructor() {
         makeObservable(this);
 
+        this.contentTypes = typeSchema.map((el) => el.name.toLowerCase());
+        this.receiverTypes = receiverSchema.map((el) => el.name.toLowerCase());
         this.reset();
     }
 
@@ -36,7 +38,7 @@ export default class MailStore {
     }
 
     @action addReceiver(email, type) {
-        if (!["to", "cc", "bcc"].includes(type)) {
+        if (!this.receiverTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
@@ -52,7 +54,7 @@ export default class MailStore {
     }
 
     @action deleteReceiver(email, type) {
-        if (!["to", "cc", "bcc"].includes(type)) {
+        if (!this.receiverTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
@@ -64,11 +66,19 @@ export default class MailStore {
     }
 
     getReceivers(type) {
-        if (!["to", "cc", "bcc"].includes(type)) {
+        if (!this.receiverTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
         return [...this[type].keys()];
+    }
+
+    @action setType(type) {
+        if (!this.contentTypes.includes(type.toLowerCase())) {
+            throw new InvalidArgumentError("Invalid argument: type");
+        }
+
+        this.type = type;
     }
 }
 

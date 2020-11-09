@@ -4,10 +4,6 @@ export const steps = [
         name: "receiver",
     },
     {
-        description: "选择类型",
-        name: "type",
-    },
-    {
         description: "编辑内容",
         name: "content",
     },
