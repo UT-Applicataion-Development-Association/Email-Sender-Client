@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { isValidEmail } from "Utils/validator";
 import ExcelService from "Services/ExcelService";
 import NotificationService from "Services/NotificationService";
-import { receiverSchema as inputList } from "Models/mail-store";
+import { receiverSchema as inputList } from "Configs/mail";
 import { DuplicationError, ValidationError } from "Configs/error";
 
 @observer
@@ -53,7 +53,7 @@ export default class Receiver extends React.Component {
                 {inputList.map((item) => (
                     <EmailInput
                         key={item.name}
-                        title={item.description}
+                        title={item.nameZh}
                         type={item.name}
                         store={store}
                         addEmailCallback={this.addEmailCallback}

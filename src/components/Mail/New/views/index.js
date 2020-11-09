@@ -8,8 +8,7 @@ import Receiver from "./Receiver";
 import Review from "./review";
 import Success from "./success";
 import ButtonGroup from "./buttonGroup";
-import TextEditor from "./textEditor";
-import BodyType from "./bodyType";
+import Content from "./content";
 import { StepContext } from "../controller";
 
 export default class Views extends React.Component {
@@ -32,15 +31,12 @@ export default class Views extends React.Component {
                 mainModule = <Receiver store={store} />;
                 break;
             case 1:
-                mainModule = <BodyType />;
+                mainModule = <Content store={store} />;
                 break;
             case 2:
-                mainModule = <TextEditor />;
-                break;
-            case 3:
                 mainModule = <Attachment />;
                 break;
-            case 4:
+            case 3:
                 mainModule = <Review />;
                 break;
             default:

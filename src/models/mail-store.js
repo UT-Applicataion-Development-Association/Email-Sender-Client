@@ -1,6 +1,7 @@
 import { observable, configure, makeObservable, action } from "mobx";
 import { isValidEmail } from "Utils/validator";
 import { ValidationError, DuplicationError, InvalidArgumentError } from "Configs/error";
+import { typeSchema, receiverSchema } from "Configs/mail";
 
 configure({ enforceActions: "observed" });
 
@@ -22,6 +23,8 @@ export default class MailStore {
     constructor() {
         makeObservable(this);
 
+        this.contentTypes = typeSchema.map((el) => el.name.toLowerCase());
+        this.receiverTypes = receiverSchema.map((el) => el.name.toLowerCase());
         this.reset();
     }
 
@@ -36,7 +39,7 @@ export default class MailStore {
     }
 
     @action addReceiver(email, type) {
-        if (!["to", "cc", "bcc"].includes(type)) {
+        if (!this.receiverTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
@@ -52,7 +55,7 @@ export default class MailStore {
     }
 
     @action deleteReceiver(email, type) {
-        if (!["to", "cc", "bcc"].includes(type)) {
+        if (!this.receiverTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
@@ -64,21 +67,18 @@ export default class MailStore {
     }
 
     getReceivers(type) {
-        if (!["to", "cc", "bcc"].includes(type)) {
+        if (!this.receiverTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
         return [...this[type].keys()];
     }
+
+    @action setType(type) {
+        if (!this.contentTypes.includes(type.toLowerCase())) {
+            throw new InvalidArgumentError("Invalid argument: type");
+        }
+
+        this.type = type;
+    }
 }
-
-export const typeSchema = [
-    { name: "plaintext", description: "纯文本" },
-    { name: "template", description: "模版" },
-];
-
-export const receiverSchema = [
-    { name: "to", description: "收件人" },
-    { name: "cc", description: "抄送" },
-    { name: "bcc", description: "密送" },
-];
