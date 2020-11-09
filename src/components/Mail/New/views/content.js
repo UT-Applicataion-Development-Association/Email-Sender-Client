@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import { Row, Col, Typography, Card } from "antd";
 import NotificationService from "Services/NotificationService";
-import { typeSchema as typeList } from "Models/mail-store";
+import { typeSchema as typeList } from "Configs/mail";
 import TemplateEditor from "./templateEditor";
 import TextEditor from "./textEditor";
 
