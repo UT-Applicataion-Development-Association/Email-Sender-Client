@@ -53,7 +53,7 @@ export default class Receiver extends React.Component {
                 {inputList.map((item) => (
                     <EmailInput
                         key={item.name}
-                        title={item.description}
+                        title={item.nameZh}
                         type={item.name}
                         store={store}
                         addEmailCallback={this.addEmailCallback}
