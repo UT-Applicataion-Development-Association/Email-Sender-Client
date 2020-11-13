@@ -1,4 +1,4 @@
-import { observable, configure, makeObservable, action } from "mobx";
+import { observable, configure, makeObservable, action, computed } from "mobx";
 import { isValidEmail } from "Utils/validator";
 import { ValidationError, DuplicationError, InvalidArgumentError } from "Configs/error";
 import { typeSchema, receiverSchema } from "Configs/mail";
@@ -80,5 +80,17 @@ export default class MailStore {
         }
 
         this.type = type;
+    }
+
+    @computed get hasValidReceivers() {
+        const isNotEmpty = !(!this.to.size && !this.cc.size && !this.bcc.size);
+        for (const type of this.receiverTypes) {
+            const addrList = this.getReceivers(type);
+            const hasWrongFormat = addrList.filter((addr) => !isValidEmail(addr)).length > 0;
+            if (hasWrongFormat) {
+                return false;
+            }
+        }
+        return isNotEmpty;
     }
 }
