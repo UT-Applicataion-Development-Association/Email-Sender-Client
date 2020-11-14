@@ -24,7 +24,7 @@ export default class Controller extends React.Component {
         this.submitCallback = this.submitCallback.bind(this);
 
         this.state = {
-            step: 0,
+            step: 1,
             onClickPrev: this.toPrevStep,
             onClickNext: this.toNextStep,
         };

@@ -19,13 +19,14 @@ export default class Content extends React.Component {
         this.notificationService = new NotificationService();
     }
 
-    _editorNode(type) {
-        switch (type) {
+    _editorNode() {
+        const { store } = this.props;
+        switch (store.type) {
             case "template":
                 return <TemplateEditor />;
             case "plaintext":
             default:
-                return <TextEditor />;
+                return <TextEditor store={store} />;
         }
     }
 
@@ -34,7 +35,7 @@ export default class Content extends React.Component {
         return (
             <div className="step-content">
                 <TypeSelector store={store} notificationService={this.notificationService} />
-                {this._editorNode(store.type)}
+                {this._editorNode(store)}
             </div>
         );
     }
