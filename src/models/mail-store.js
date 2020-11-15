@@ -120,9 +120,10 @@ export default class MailStore {
 
         const result = {};
         result.type = this.type;
-        result.to = toJS(this.getReceivers("to", true));
-        result.cc = toJS(this.getReceivers("cc", true));
-        result.bcc = toJS(this.getReceivers("bcc", true));
+        result.to = toJS(this.getRecipients("to", true));
+        result.cc = toJS(this.getRecipients("cc", true));
+        result.bcc = toJS(this.getRecipients("bcc", true));
+        result.subject = this.subject;
         switch (this.type) {
             case "template":
                 result.templateId = this.templateId;
