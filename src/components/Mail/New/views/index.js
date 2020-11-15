@@ -14,7 +14,6 @@ import { StepContext } from "../controller";
 export default class Views extends React.Component {
     static propTypes = {
         store: PropTypes.any,
-        callbacks: PropTypes.object,
         result: PropTypes.object,
     };
 
@@ -23,8 +22,7 @@ export default class Views extends React.Component {
     }
 
     _moduleNode(step) {
-        const { callbacks, store } = this.props;
-        const { onClickSubmit } = callbacks;
+        const { store } = this.props;
         let mainModule = <></>;
         switch (step) {
             case 0:
@@ -48,7 +46,7 @@ export default class Views extends React.Component {
                 <Divider />
                 {mainModule}
                 <Divider />
-                <ButtonGroup onClickSubmit={onClickSubmit} />
+                <ButtonGroup />
             </>
         );
     }

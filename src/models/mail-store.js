@@ -1,4 +1,4 @@
-import { observable, configure, makeObservable, action, computed } from "mobx";
+import { observable, configure, makeObservable, action, computed, toJS } from "mobx";
 import { isValidEmail } from "Utils/validator";
 import { ValidationError, DuplicationError, InvalidArgumentError } from "Configs/error";
 import { typeSchema, receiverSchema } from "Configs/mail";
@@ -66,12 +66,23 @@ export default class MailStore {
         this[type].delete(email);
     }
 
-    getReceivers(type) {
+    getReceivers(type, detail = false) {
         if (!this.receiverTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
-        return [...this[type].keys()];
+        if (!detail) {
+            return [...this[type].keys()];
+        }
+
+        const iter = this[type].values();
+        const result = [];
+        let curr = iter.next();
+        while (!curr.done) {
+            result.push(toJS(curr.value));
+            curr = iter.next();
+        }
+        return result;
     }
 
     @action setType(type) {
@@ -96,5 +107,26 @@ export default class MailStore {
             }
         }
         return isNotEmpty;
+    }
+
+    exportJson() {
+        // Todo - Add support for attachment
+
+        const result = {};
+        result.type = this.type;
+        result.to = toJS(this.getReceivers("to", true));
+        result.cc = toJS(this.getReceivers("cc", true));
+        result.bcc = toJS(this.getReceivers("bcc", true));
+        switch (this.type) {
+            case "template":
+                result.templateId = this.templateId;
+                break;
+            case "plaintext":
+            default:
+                result.body = this.body;
+                break;
+        }
+
+        return result;
     }
 }
