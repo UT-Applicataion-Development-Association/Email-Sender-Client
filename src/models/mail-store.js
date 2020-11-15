@@ -82,6 +82,10 @@ export default class MailStore {
         this.type = type;
     }
 
+    @action setBody(val) {
+        this.body = val;
+    }
+
     @computed get hasValidReceivers() {
         const isNotEmpty = !(!this.to.size && !this.cc.size && !this.bcc.size);
         for (const type of this.receiverTypes) {
