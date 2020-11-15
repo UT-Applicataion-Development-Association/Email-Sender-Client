@@ -27,6 +27,7 @@ export default class Controller extends React.Component {
 
         this.state = {
             step: 0,
+            result: null,
             onClickPrev: this.toPrevStep,
             onClickNext: this.toNextStep,
             onClickSubmit: this.submitCallback,
@@ -70,11 +71,12 @@ export default class Controller extends React.Component {
         }
     }
 
-    submitCallback() {
+    async submitCallback() {
         const { rootStore } = this.props;
         const mailStore = rootStore.mailStore;
         const json = mailStore.exportJson();
-        return json;
+        const result = await this.apiService.sendEmail(json);
+        this.setState({ result });
     }
 
     render() {
@@ -82,7 +84,7 @@ export default class Controller extends React.Component {
         const mailStore = rootStore.mailStore;
         return (
             <StepContext.Provider value={this.state}>
-                <Views store={mailStore} result={null} />
+                <Views store={mailStore} />
             </StepContext.Provider>
         );
     }

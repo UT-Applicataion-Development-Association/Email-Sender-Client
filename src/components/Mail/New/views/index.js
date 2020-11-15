@@ -14,7 +14,6 @@ import { StepContext } from "../controller";
 export default class Views extends React.Component {
     static propTypes = {
         store: PropTypes.any,
-        result: PropTypes.object,
     };
 
     constructor(props) {
@@ -51,18 +50,15 @@ export default class Views extends React.Component {
         );
     }
 
-    _resultNode() {
-        const { result } = this.props;
+    _resultNode(result) {
         return <div className="result">{result.isSuccess ? <Success info={result} /> : <Failure info={result} />}</div>;
     }
 
     render() {
-        const { result } = this.props;
-
         return (
             <StepContext.Consumer>
-                {({ step }) => {
-                    return <div className="mail-new">{result ? this._resultNode() : this._moduleNode(step)}</div>;
+                {({ step, result }) => {
+                    return <div className="mail-new">{result ? this._resultNode(result) : this._moduleNode(step)}</div>;
                 }}
             </StepContext.Consumer>
         );
