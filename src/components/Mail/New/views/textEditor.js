@@ -28,7 +28,7 @@ export default class TextEditor extends React.Component {
         return (
             <Row className="row-text-editor">
                 <Col span={3}>
-                    <Text strong>正文内容</Text>
+                    <Text strong>正文</Text>
                 </Col>
                 <Col span={21}>
                     <TextArea showCount value={store.body} rows={20} onInput={this.onInputCallback} />

@@ -18,6 +18,8 @@ export default class MailStore {
 
     @observable attachments;
 
+    @observable subject;
+
     @observable body;
 
     constructor() {
@@ -80,6 +82,10 @@ export default class MailStore {
         }
 
         this.type = type;
+    }
+
+    @action setSubject(val) {
+        this.subject = val;
     }
 
     @action setBody(val) {
