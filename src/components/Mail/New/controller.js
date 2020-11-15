@@ -61,7 +61,7 @@ export default class Controller extends React.Component {
         const mailStore = rootStore.mailStore;
         switch (step) {
             case 0:
-                return mailStore.hasValidReceivers;
+                return mailStore.hasValidRecipients;
             default:
                 return true;
         }

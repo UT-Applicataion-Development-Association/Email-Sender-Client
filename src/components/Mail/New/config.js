@@ -1,7 +1,7 @@
 export const steps = [
     {
         description: "选择收件人",
-        name: "receiver",
+        name: "recipient",
     },
     {
         description: "编辑内容",
