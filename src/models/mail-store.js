@@ -116,14 +116,13 @@ export default class MailStore {
     }
 
     exportJson() {
-        // Todo - Add support for attachment
-
         const result = {};
         result.type = this.type;
         result.to = toJS(this.getRecipients("to", true));
         result.cc = toJS(this.getRecipients("cc", true));
         result.bcc = toJS(this.getRecipients("bcc", true));
         result.subject = this.subject;
+        // Todo - Add support for attachment
         switch (this.type) {
             case "template":
                 result.templateId = this.templateId;
