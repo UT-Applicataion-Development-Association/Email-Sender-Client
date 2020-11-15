@@ -1,7 +1,7 @@
 import { observable, configure, makeObservable, action, computed, toJS } from "mobx";
 import { isValidEmail } from "Utils/validator";
 import { ValidationError, DuplicationError, InvalidArgumentError } from "Configs/error";
-import { typeSchema, receiverSchema } from "Configs/mail";
+import { typeSchema, recipientSchema } from "Configs/mail";
 
 configure({ enforceActions: "observed" });
 
@@ -18,13 +18,15 @@ export default class MailStore {
 
     @observable attachments;
 
+    @observable subject;
+
     @observable body;
 
     constructor() {
         makeObservable(this);
 
         this.contentTypes = typeSchema.map((el) => el.name.toLowerCase());
-        this.receiverTypes = receiverSchema.map((el) => el.name.toLowerCase());
+        this.recipientTypes = recipientSchema.map((el) => el.name.toLowerCase());
         this.reset();
     }
 
@@ -38,8 +40,8 @@ export default class MailStore {
         this.body = null;
     }
 
-    @action addReceiver(email, type) {
-        if (!this.receiverTypes.includes(type)) {
+    @action addRecipient(email, type) {
+        if (!this.recipientTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
@@ -54,8 +56,8 @@ export default class MailStore {
         this[type].set(email, { email, parameters: {} });
     }
 
-    @action deleteReceiver(email, type) {
-        if (!this.receiverTypes.includes(type)) {
+    @action deleteRecipient(email, type) {
+        if (!this.recipientTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
@@ -66,8 +68,8 @@ export default class MailStore {
         this[type].delete(email);
     }
 
-    getReceivers(type, detail = false) {
-        if (!this.receiverTypes.includes(type)) {
+    getRecipients(type, detail = false) {
+        if (!this.recipientTypes.includes(type)) {
             throw new InvalidArgumentError("Invalid argument: type");
         }
 
@@ -93,14 +95,18 @@ export default class MailStore {
         this.type = type;
     }
 
+    @action setSubject(val) {
+        this.subject = val;
+    }
+
     @action setBody(val) {
         this.body = val;
     }
 
-    @computed get hasValidReceivers() {
+    @computed get hasValidRecipients() {
         const isNotEmpty = !(!this.to.size && !this.cc.size && !this.bcc.size);
-        for (const type of this.receiverTypes) {
-            const addrList = this.getReceivers(type);
+        for (const type of this.recipientTypes) {
+            const addrList = this.getRecipients(type);
             const hasWrongFormat = addrList.filter((addr) => !isValidEmail(addr)).length > 0;
             if (hasWrongFormat) {
                 return false;

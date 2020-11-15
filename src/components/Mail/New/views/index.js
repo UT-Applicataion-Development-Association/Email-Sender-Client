@@ -4,7 +4,7 @@ import { Divider } from "antd";
 import Attachment from "./attachment";
 import Failure from "./failure";
 import Progress from "./progress";
-import Receiver from "./Receiver";
+import Recipient from "./recipient";
 import Review from "./review";
 import Success from "./success";
 import ButtonGroup from "./buttonGroup";
@@ -25,7 +25,7 @@ export default class Views extends React.Component {
         let mainModule = <></>;
         switch (step) {
             case 0:
-                mainModule = <Receiver store={store} />;
+                mainModule = <Recipient store={store} />;
                 break;
             case 1:
                 mainModule = <Content store={store} />;

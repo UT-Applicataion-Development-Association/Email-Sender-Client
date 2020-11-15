@@ -6,11 +6,11 @@ import { UploadOutlined } from "@ant-design/icons";
 import { isValidEmail } from "Utils/validator";
 import ExcelService from "Services/ExcelService";
 import NotificationService from "Services/NotificationService";
-import { receiverSchema as inputList } from "Configs/mail";
+import { recipientSchema as inputList } from "Configs/mail";
 import { DuplicationError, ValidationError } from "Configs/error";
 
 @observer
-export default class Receiver extends React.Component {
+export default class Recipient extends React.Component {
     static propTypes = {
         store: PropTypes.any,
     };
@@ -27,7 +27,7 @@ export default class Receiver extends React.Component {
         const { store } = this.props;
 
         try {
-            store.addReceiver(email, type);
+            store.addRecipient(email, type);
         } catch (e) {
             if (e instanceof DuplicationError) {
                 this.notificationService.post("error", `列表中已包含邮箱地址 ${email}`);
@@ -41,13 +41,13 @@ export default class Receiver extends React.Component {
 
     deleteEmailCallback(email, type) {
         const { store } = this.props;
-        store.deleteReceiver(email, type);
+        store.deleteRecipient(email, type);
     }
 
     render() {
         const { store } = this.props;
         return (
-            <div className="step-receiver">
+            <div className="step-recipient">
                 <FileUpload addEmailCallback={this.addEmailCallback} />
                 <Divider />
                 {inputList.map((item) => (
@@ -133,7 +133,9 @@ class EmailInput extends React.Component {
                         onPressEnter={this.onValueSave}
                         onSearch={this.onValueSave}
                     />
-                    <div className="input-tags">{store.getReceivers(type).map((item) => this._emailTagNode(item))}</div>
+                    <div className="input-tags">
+                        {store.getRecipients(type).map((item) => this._emailTagNode(item))}
+                    </div>
                 </Col>
             </Row>
         );
@@ -156,7 +158,7 @@ class FileUpload extends React.Component {
         const { addEmailCallback } = this.props;
         const { file } = options;
 
-        const receiverTypes = inputList.map((el) => el.name.toLowerCase());
+        const recipientTypes = inputList.map((el) => el.name.toLowerCase());
         try {
             const xlsx = new ExcelService();
             await xlsx.loadFromBlob(file);
@@ -167,7 +169,7 @@ class FileUpload extends React.Component {
 
             const header = arr[0];
             for (let j = 0; j < header.length; j++) {
-                if (!receiverTypes.includes(header[j])) {
+                if (!recipientTypes.includes(header[j])) {
                     continue;
                 }
                 for (let i = 1; i < arr.length; i++) {
@@ -180,11 +182,11 @@ class FileUpload extends React.Component {
     }
 
     templateDownloader() {
-        const receiverTypes = inputList.map((el) => el.name.toLowerCase());
+        const recipientTypes = inputList.map((el) => el.name.toLowerCase());
 
         const xlsx = new ExcelService();
         xlsx.createWorkbook();
-        xlsx.addSheetFromArray([receiverTypes], "upload");
+        xlsx.addSheetFromArray([recipientTypes], "upload");
         xlsx.downloadWorkbook("template.xlsx");
     }
 
