@@ -16,7 +16,7 @@ export const typeSchema = [
     },
 ];
 
-export const receiverSchema = [
+export const recipientSchema = [
     { name: "to", nameZh: "收件人" },
     { name: "cc", nameZh: "抄送" },
     { name: "bcc", nameZh: "密送" },

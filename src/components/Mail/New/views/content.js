@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
-import { Row, Col, Typography, Card } from "antd";
+import { Input, Row, Col, Typography, Card } from "antd";
 import NotificationService from "Services/NotificationService";
 import { typeSchema as typeList } from "Configs/mail";
 import TemplateEditor from "./templateEditor";
@@ -35,7 +35,8 @@ export default class Content extends React.Component {
         return (
             <div className="step-content">
                 <TypeSelector store={store} notificationService={this.notificationService} />
-                {this._editorNode(store)}
+                <Subject store={store} />
+                {this._editorNode()}
             </div>
         );
     }
@@ -116,6 +117,40 @@ class TypeCard extends React.Component {
             >
                 <Meta avatar={this._iconNode()} title={title} description={description} />
             </Card>
+        );
+    }
+}
+
+@observer
+class Subject extends React.Component {
+    static propTypes = {
+        store: PropTypes.any,
+    };
+
+    constructor(props) {
+        super(props);
+
+        this.onChangeCallback = this.onChangeCallback.bind(this);
+    }
+
+    onChangeCallback(e) {
+        const { value } = e.target;
+        const { store } = this.props;
+        store.setSubject(value);
+    }
+
+    render() {
+        const { Text } = Typography;
+        const { store } = this.props;
+        return (
+            <Row className="row-subject-input">
+                <Col span={3}>
+                    <Text strong>标题</Text>
+                </Col>
+                <Col span={21}>
+                    <Input value={store.subject} onChange={this.onChangeCallback} />
+                </Col>
+            </Row>
         );
     }
 }
