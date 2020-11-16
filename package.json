@@ -68,6 +68,7 @@
         "@ant-design/icons": "^4.3.0",
         "@babel/polyfill": "^7.12.1",
         "antd": "^4.8.2",
+        "axios": "^0.21.0",
         "mobx": "^6.0.4",
         "mobx-react": "^7.0.5",
         "prop-types": "^15.7.2",
