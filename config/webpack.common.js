@@ -7,7 +7,7 @@ module.exports = {
     // devtool: "eval-source-map",
     entry: {
         index: path.resolve(__dirname, "../src/index.js"),
-        framework: ["react", "react-dom", "antd", "react-router-dom"],
+        framework: ["react", "react-dom", "antd", "react-router-dom", "mobx", "mobx-react"],
     },
     output: {
         path: path.resolve(__dirname, "../dist"),

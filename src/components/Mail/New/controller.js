@@ -2,6 +2,7 @@ import React from "react";
 import { observer, inject } from "mobx-react";
 import PropTypes from "prop-types";
 import NotificationService from "Services/NotificationService";
+import ApiService from "Services/ApiService";
 import Views from "./views";
 import { steps as stepList } from "./config";
 
@@ -17,7 +18,8 @@ export default class Controller extends React.Component {
     constructor(props) {
         super(props);
 
-        this.NotificationService = new NotificationService();
+        this.notificationService = new NotificationService();
+        this.apiService = new ApiService();
 
         this.toPrevStep = this.toPrevStep.bind(this);
         this.toNextStep = this.toNextStep.bind(this);
@@ -25,8 +27,10 @@ export default class Controller extends React.Component {
 
         this.state = {
             step: 0,
+            result: null,
             onClickPrev: this.toPrevStep,
             onClickNext: this.toNextStep,
+            onClickSubmit: this.submitCallback,
         };
     }
 
@@ -34,7 +38,7 @@ export default class Controller extends React.Component {
         const { step } = this.state;
 
         if (!this.isCompletedStep(step)) {
-            this.NotificationService.post("error", "请确认已提供当前步骤所需的全部信息");
+            this.notificationService.post("error", "请确认已提供当前步骤所需的全部信息");
             return;
         }
 
@@ -47,7 +51,7 @@ export default class Controller extends React.Component {
         const { step } = this.state;
 
         if (!this.isCompletedStep(step)) {
-            this.NotificationService.post("error", "请确认已提供当前步骤所需的全部信息");
+            this.notificationService.post("error", "请确认已提供当前步骤所需的全部信息");
             return;
         }
 
@@ -67,17 +71,20 @@ export default class Controller extends React.Component {
         }
     }
 
-    submitCallback() {
-        return;
+    async submitCallback() {
+        const { rootStore } = this.props;
+        const mailStore = rootStore.mailStore;
+        const json = mailStore.exportJson();
+        const result = await this.apiService.sendEmail(json);
+        this.setState({ result });
     }
 
     render() {
         const { rootStore } = this.props;
         const mailStore = rootStore.mailStore;
-        const callbacks = { submitCallback: this.submitCallback };
         return (
             <StepContext.Provider value={this.state}>
-                <Views store={mailStore} result={null} callbacks={callbacks} />
+                <Views store={mailStore} />
             </StepContext.Provider>
         );
     }

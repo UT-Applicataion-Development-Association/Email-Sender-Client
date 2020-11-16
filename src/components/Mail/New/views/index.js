@@ -14,8 +14,6 @@ import { StepContext } from "../controller";
 export default class Views extends React.Component {
     static propTypes = {
         store: PropTypes.any,
-        callbacks: PropTypes.object,
-        result: PropTypes.object,
     };
 
     constructor(props) {
@@ -23,8 +21,7 @@ export default class Views extends React.Component {
     }
 
     _moduleNode(step) {
-        const { callbacks, store } = this.props;
-        const { onClickSubmit } = callbacks;
+        const { store } = this.props;
         let mainModule = <></>;
         switch (step) {
             case 0:
@@ -48,23 +45,20 @@ export default class Views extends React.Component {
                 <Divider />
                 {mainModule}
                 <Divider />
-                <ButtonGroup onClickSubmit={onClickSubmit} />
+                <ButtonGroup />
             </>
         );
     }
 
-    _resultNode() {
-        const { result } = this.props;
+    _resultNode(result) {
         return <div className="result">{result.isSuccess ? <Success info={result} /> : <Failure info={result} />}</div>;
     }
 
     render() {
-        const { result } = this.props;
-
         return (
             <StepContext.Consumer>
-                {({ step }) => {
-                    return <div className="mail-new">{result ? this._resultNode() : this._moduleNode(step)}</div>;
+                {({ step, result }) => {
+                    return <div className="mail-new">{result ? this._resultNode(result) : this._moduleNode(step)}</div>;
                 }}
             </StepContext.Consumer>
         );

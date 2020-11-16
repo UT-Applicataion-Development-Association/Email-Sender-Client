@@ -10,6 +10,7 @@ export default class Failure extends React.Component {
     };
 
     render() {
+        const { info } = this.props;
         return (
             <Result
                 className="failure"
@@ -27,7 +28,7 @@ export default class Failure extends React.Component {
                     <Paragraph>
                         <Text strong>错误信息如下：</Text>
                     </Paragraph>
-                    <Paragraph>Error 500: Internal Server Error</Paragraph>
+                    <Paragraph>{info.message}</Paragraph>
                 </div>
             </Result>
         );
